@@ -29,10 +29,10 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-@RequiredArgsConstructor
+// @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JwtAuthFilter jwtAuthFilter;
+    // private final JwtAuthFilter jwtAuthFilter;
     // private final UserDetailsService userDetailsService;
 
     @Value("${app.cors.allowed-origins}")
