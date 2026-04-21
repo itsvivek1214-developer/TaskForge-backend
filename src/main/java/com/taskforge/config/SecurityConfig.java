@@ -1,7 +1,6 @@
 package com.taskforge.config;
 
 import com.taskforge.security.JwtAuthFilter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,14 +28,19 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-// @RequiredArgsConstructor
 public class SecurityConfig {
 
-    // private final JwtAuthFilter jwtAuthFilter;
-    // private final UserDetailsService userDetailsService;
+    private final JwtAuthFilter jwtAuthFilter;
+    private final UserDetailsService userDetailsService;
 
     @Value("${app.cors.allowed-origins}")
     private String allowedOrigins;
+
+    public SecurityConfig(JwtAuthFilter jwtAuthFilter,
+                          UserDetailsService userDetailsService) {
+        this.jwtAuthFilter = jwtAuthFilter;
+        this.userDetailsService = userDetailsService;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -51,8 +55,8 @@ public class SecurityConfig {
             .sessionManagement(session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
-            // .authenticationProvider(authenticationProvider())
-            // .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+            .authenticationProvider(authenticationProvider())
+            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
             .build();
     }
 
@@ -71,16 +75,17 @@ public class SecurityConfig {
         return source;
     }
 
-    // @Bean
-    // public AuthenticationProvider authenticationProvider() {
-    //     DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-    //     provider.setUserDetailsService(userDetailsService);
-    //     provider.setPasswordEncoder(passwordEncoder());
-    //     return provider;
-    // }
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userDetailsService);
+        provider.setPasswordEncoder(passwordEncoder());
+        return provider;
+    }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+    public AuthenticationManager authenticationManager(
+            AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
