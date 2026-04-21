@@ -14,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Configuration
+// @Configuration
 @RequiredArgsConstructor
 @Slf4j
 public class DataSeeder {
