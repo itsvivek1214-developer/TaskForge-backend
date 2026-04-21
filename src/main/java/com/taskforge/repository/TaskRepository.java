@@ -20,7 +20,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
           AND (:status   IS NULL OR t.status   = :status)
           AND (:priority IS NULL OR t.priority = :priority)
           AND (:search   IS NULL OR LOWER(t.title) LIKE LOWER(CONCAT('%', :search, '%'))
-                                 OR LOWER(t.description) LIKE LOWER(CONCAT('%', :search, '%')))
+          OR LOWER(t.description) LIKE LOWER(CONCAT('%', :search, '%')))
         """)
     Page<Task> findByUserIdWithFilters(
         @Param("userId")   Long userId,
