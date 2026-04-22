@@ -1,6 +1,6 @@
 package com.taskforge.security;
 
-import com.taskforge.model.User;
+import com.taskforge.entity.User;
 import com.taskforge.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

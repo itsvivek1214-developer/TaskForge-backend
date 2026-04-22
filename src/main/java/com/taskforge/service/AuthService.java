@@ -46,7 +46,6 @@ public class AuthService {
     }
 
     public AuthResponse.Login login(AuthRequest.Login request) {
-        // This throws BadCredentialsException if invalid — handled globally
         authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
                 request.getEmail().toLowerCase().trim(),
