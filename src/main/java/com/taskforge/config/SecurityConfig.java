@@ -36,11 +36,12 @@ public class SecurityConfig {
     @Value("${app.cors.allowed-origins}")
     private String allowedOrigins;
 
-    public SecurityConfig(JwtAuthFilter jwtAuthFilter,
-                          UserDetailsService userDetailsService) {
-        this.jwtAuthFilter = jwtAuthFilter;
-        this.userDetailsService = userDetailsService;
-    }
+public SecurityConfig(JwtAuthFilter jwtAuthFilter,
+    @org.springframework.context.annotation.Lazy
+    UserDetailsService userDetailsService) {
+    this.jwtAuthFilter = jwtAuthFilter;
+    this.userDetailsService = userDetailsService;
+}
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
